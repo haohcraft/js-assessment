@@ -23,3 +23,17 @@ myFunction.prototype.bind= function() {
         this.apply(thisArg, restArgs);
     };
 }
+
+
+// To use _.debounce to handle the sequential key stokes' input
+
+// position:absolute -- the element's position is calculated based on that its closest non-staticly positioned ancestor.
+
+// vendor-prefix:
+// -webkit- (Chrome, newer versions of Opera.)
+// -moz- (Firefox)
+// -o- (Old versions of Opera)
+// -ms- (Internet Explorer)
+
+// JS linkedlist
+
