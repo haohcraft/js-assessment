@@ -64,17 +64,17 @@ myFunction.prototype.bind= function() {
 myExpression = new AdditionExpression("one", "one", "two");
 myExpression.eval(proposedSolution) // --> true
 
-class AdditionExpression {
-    constructor(first, second, result) 
+// class AdditionExpression {
+//     constructor(first, second, result) 
     
-    // gets all characters in the problem as a set
-    getChars()
+//     // gets all characters in the problem as a set
+//     getChars()
 
-    // proposedSolution: { O: 2, N: 3, E: 1, T:4, W: 6 }
-    boolean eval(proposedSolution) {
+//     // proposedSolution: { O: 2, N: 3, E: 1, T:4, W: 6 }
+//     boolean eval(proposedSolution) {
         
-    }
-}
+//     }
+// }
 function getChars() {
     var args = [].slice(arguments);
     var dict = {};
@@ -128,7 +128,7 @@ function additionExpression(first, second, result) {
 // solve("ONE", "ONE", "TWO")
 var map = {};
 var arrNums = [0,1,2,3,4,5,6,7,8,9];
-const getMap = (chars, i, j) => {
+var getMap = (chars, i, j) => {
 
     if(chars && chars.length === 1) {
         return {
@@ -161,4 +161,104 @@ function solve(first, second, result) {
     }
   
 }
+
+/*
+
+x x - - x -          x x - - x x
+x - - - x x    ->    x x - x - x
+- - - x - x          - - - - - x
+
+x = alive
+- = dead
+
+Alive:
+  < 2 neighbors (alive): dies of isolation
+  > 3 neighbors (alive): dies of overcrowding
+  
+Dead:
+  = 3 neighbors (alive): becomes alive
+
+You can represent the world however you wish, as long as the input
+and output formats are consistent.
+*/
+
+// var _ = require('underscore')
+
+// function sayHello() {
+//   console.log('Hello, World');
+// }
+
+// _.times(5, sayHello);
+ 
+
+var world = [[1,1,0,0,1,0],[1,0,0,0,1,1],[0,0,0,1,0,1]];
+//
+
+
+
+function get(world, i, j) {
+  var item;
+  var left = world.length;
+  var right = world[0].length;
+  if( i >= 0 && j >= 0 && i < left && j < right ) {
+    item = world[i][j];
+  }
+  return item;
+}
+
+function calculateAlive(arr) {
+  return arr.reduce(function(r, v) {
+    if(v) r = v + r;
+    return r;
+  }, 0);
+}
+
+function test (world) {
+  var copy = [];
+  var top, left, bottom, right, topL, topR, bottomL, bottomR;
+  var numAliveNeighbor = 0;
+  for(var i = 0; i<world.length; i++) {
+    var row = [];
+    for(var j =0; j < world[0].length; j++) {
+      
+      var target = world[i][j];
+      top = get(world, i, j - 1);
+      left = get(world, i -1, j);
+      bottom = get(world, i, j + 1);
+      right = get(world, i + 1, j);
+      
+      topL = get(world, i - 1, j - 1);
+      topR = get(world, i + 1, j -1);
+      bottomL = get(world, i - 1, j + 1);
+      bottomR = get(world, i + 1, j + 1);
+      
+      numAliveNeighbor = calculateAlive([top, left, bottom, right, topL, topR, bottomL, bottomR]);
+      
+      if(target) {
+        if(numAliveNeighbor < 2 || numAliveNeighbor > 3) {
+          row.push(0);
+        } else {
+          row.push(1);
+        }
+      } else {
+        if(numAliveNeighbor === 3) {
+          row.push(1);
+        } else {
+          row.push(0);
+        }
+      }
+      
+      
+    }
+    
+    copy.push(row);
+  }
+  
+  return copy;
+}
+
+console.log(world);
+var result = test(world);
+
+console.log(result);
 
