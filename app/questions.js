@@ -128,7 +128,7 @@ function additionExpression(first, second, result) {
 // solve("ONE", "ONE", "TWO")
 var map = {};
 var arrNums = [0,1,2,3,4,5,6,7,8,9];
-var getMap = (chars, i, j) => {
+var getMap = function (chars, i, j) {
 
     if(chars && chars.length === 1) {
         return {
@@ -261,4 +261,145 @@ console.log(world);
 var result = test(world);
 
 console.log(result);
+/*
+Write a function, `fizzBuzz`, that prints the numbers from 1 to 100. But for multiples of three print "Fizz" instead of the number and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz". For example:
+
+1
+2
+'Fizz'
+4
+'Buzz'
+'Fizz'
+7
+etc.
+*/
+
+// Your implementation here
+
+function checkPrint(n) {
+  var out = n;
+  if(n % 3 === 0 && n % 5 === 0 ) {
+    out = "FizzBuzz";
+
+  } else if(n % 3 === 0) {
+    out = "Fizz";
+
+  } else if (n % 5 === 0 ) {
+    out = "Buzz";
+
+  }
+  console.log("" + out);
+  
+}
+
+function fizzBuzz() {
+  for(var i = 1; i <=100 ; i++) {
+    checkPrint(i);
+  }
+} // prints fizzbuzz 1-100...
+
+// fizzBuzz();
+
+
+/*
+Write a function that creates a new Object that implements `fizzBuzz` from 1 to `max`. `max` should be an "own property" of the created object. The API should resemble:
+*/
+
+// Your implementation here
+
+function FizzBuzzer(max) {
+  this.max = max;
+}
+
+FizzBuzzer.prototype.fizzBuzz = function() {
+  for(var i =1; i<= this.max; i++) {
+    checkPrint(i);
+  }
+}
+
+var fb = new FizzBuzzer(15)
+
+// console.log(fb.hasOwnProperty('max')) // true
+// console.log(fb.max) // 15
+// console.log(fb.hasOwnProperty('fizzBuzz')) // false
+// fb.fizzBuzz() // prints fizzbuzz 1-15...
+
+
+
+/*
+Write a function that creates a new Object that implements `fizzBuzz` from 1 to `max`. `max` should be *private* to the created object and default to `100`. The API should resemble:
+*/
+
+// Your implementation here
+
+function FizzBuzzer(configMax) {
+  var max = configMax;
+  this.getMax = function() {
+    return max;
+  }
+  this.setMax = function(newMax) {
+    max = newMax;
+  }
+  this.fizzBuzz = function() {
+    for(var i =1; i<= max; i++) {
+      checkPrint(i);
+    }
+  }
+}
+
+
+var fb = new FizzBuzzer(5)
+
+console.log(fb.hasOwnProperty('max')) // false
+console.log(fb.max) // undefined
+console.log(fb.getMax()) // 5
+fb.fizzBuzz() // prints fizzbuzz 1-5...
+fb.setMax(15)
+console.log(fb.getMax()) // 15
+fb.fizzBuzz() // prints fizzbuzz 1-15...
+
+
+function Queue(concurrency) {
+  var i;
+  var q = [];
+  var count = 0;
+  var execute = function(q) {
+    for(var i = 0; i < concurrency - count; i++) {
+      var _func = q[i];
+      if(_func) {
+        count++;
+      
+        _func(done);
+      }
+    }
+  };
+  var done = function() {
+    count--;
+    if(!count) {
+      
+      q = q.slice(2);
+      count = 0;
+      execute(q);
+    }
+  };
+  
+  return function(func) {
+    q.push(func);
+    execute(q);
+  };
+}
+
+function exampleTask(done) {
+    console.log('Called');
+    setTimeout(done, Math.random() * 2000);
+}
+
+var q = Queue(2);
+
+q(exampleTask); // Executes immediately 
+q(exampleTask); // Executes immediately 
+q(exampleTask); // Waits until running task completes
+
+
+
 
