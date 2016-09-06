@@ -34,5 +34,8 @@
   "bugs": {
     "url": "https://github.com/rmurphey/js-assessment/issues"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "reqwest": "^2.0.5"
+  }
 }
